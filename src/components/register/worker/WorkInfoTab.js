@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { Field, useFormikContext } from "formik";
 import { useEffect, useState } from "react";
-import { noiseOptions, vibrationOptions, workOptions } from "./Option";
+import { silicaDustOptions, workOptions } from "./Option";
 import { MdNavigateBefore, MdNavigateNext, MdLocationOn } from "react-icons/md";
 
 export default function WorkInfoTab({ nextTab, prevTab }) {
@@ -26,23 +26,12 @@ export default function WorkInfoTab({ nextTab, prevTab }) {
   const toast = useToast();
 
   useEffect(() => {
-    const selectedNoisePosition = noiseOptions.find(
-      (option) => option.value === values.position
-    );
-    const selectedVibrationPosition = vibrationOptions.find(
+    const selectedSilicaDust = silicaDustOptions.find(
       (option) => option.value === values.position
     );
 
-    if (selectedNoisePosition) {
-      setFieldValue("noise", selectedNoisePosition.noiseAvg || "");
-    }
-
-    if (selectedVibrationPosition) {
-      setFieldValue("vibrateX", selectedVibrationPosition.vibrateX || "");
-      setFieldValue("vibrateY", selectedVibrationPosition.vibrateY || "");
-      setFieldValue("vibrateZ", selectedVibrationPosition.vibrateZ || "");
-      setFieldValue("vibrateAvg", selectedVibrationPosition.vibrateAvg || "");
-      setFieldValue("vibrateTwa", selectedVibrationPosition.vibrateTwa || "");
+    if (selectedSilicaDust) {
+      setFieldValue("silicaDust", selectedSilicaDust.silicaDustAvg || "");
     }
   }, [values.position, setFieldValue]);
 
@@ -76,7 +65,7 @@ export default function WorkInfoTab({ nextTab, prevTab }) {
   const isFormValid = () => {
     return (
       values.position &&
-      values.noise > 0 &&
+      values.silicaDust > 0 &&
       values.workingHours > 0 &&
       values.workingWeeks > 0 &&
       values.workingYears > 0 &&
@@ -101,7 +90,7 @@ export default function WorkInfoTab({ nextTab, prevTab }) {
             return error;
           }}
         >
-          {noiseOptions.map((option) => (
+          {silicaDustOptions.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
             </option>
@@ -110,87 +99,31 @@ export default function WorkInfoTab({ nextTab, prevTab }) {
         <FormErrorMessage>{errors.position}</FormErrorMessage>
       </FormControl>
 
-      <FormControl isInvalid={!!errors.noise && touched.noise}>
-        <FormLabel>ระดับเสียง*</FormLabel>
+      <FormControl isInvalid={!!errors.silicaDust && touched.silicaDust}>
+        <FormLabel>ความเข้มข้นฝุ่นซิลิกา*</FormLabel>
         <InputGroup>
           <Field
             as={Input}
             type="number"
-            name="noise"
+            name="silicaDust"
             placeholder="ใส่เฉพาะตัวเลข"
             min={0}
-            step={0.01}
+            step={0.001}
             validate={(value) => {
               let error;
               if (!value) {
-                error = "กรุณาใส่ข้อมูลระดับความดันเสียง";
+                error = "กรุณาใส่ข้อมูลความเข้มข้นฝุ่นซิลิกา";
               } else if (value < 0) {
-                error = "ข้อมูลระดับความดันเสียงต้องไม่ต่ำกว่า 0 db(A)";
+                error = "ข้อมูลความเข้มข้นฝุ่นซิลิกาต้องไม่ต่ำกว่า 0";
               }
               return error;
             }}
           />
-          <InputRightAddon>dB(A)</InputRightAddon>
+          <InputRightAddon>
+            mg/m<sup>3</sup>
+          </InputRightAddon>
         </InputGroup>
-        <FormErrorMessage>{errors.noise}</FormErrorMessage>
-      </FormControl>
-
-      <FormControl>
-        <FormLabel>
-          ค่าการสั่นสะเทือน (m/s<sup>2</sup>)
-        </FormLabel>
-        <div className="grid grid-cols-2 gap-2 max-md:grid-cols-1">
-          <InputGroup>
-            <InputLeftAddon>แกน X</InputLeftAddon>
-            <Field
-              as={Input}
-              type="number"
-              name="vibrateX"
-              placeholder="ใส่เฉพาะตัวเลข"
-              step={0.01}
-            />
-          </InputGroup>
-          <InputGroup>
-            <InputLeftAddon>แกน Y</InputLeftAddon>
-            <Field
-              as={Input}
-              type="number"
-              name="vibrateY"
-              placeholder="ใส่เฉพาะตัวเลข"
-              step={0.01}
-            />
-          </InputGroup>
-          <InputGroup>
-            <InputLeftAddon>แกน Z</InputLeftAddon>
-            <Field
-              as={Input}
-              type="number"
-              name="vibrateZ"
-              placeholder="ใส่เฉพาะตัวเลข"
-              step={0.01}
-            />
-          </InputGroup>
-          <InputGroup>
-            <InputLeftAddon>ค่าเฉลี่ยความเร่ง</InputLeftAddon>
-            <Field
-              as={Input}
-              type="number"
-              name="vibrateAvg"
-              placeholder="ใส่เฉพาะตัวเลข"
-              step={0.01}
-            ></Field>
-          </InputGroup>
-          <InputGroup>
-            <InputLeftAddon>ค่าเฉลี่ยรับสัมผัสใน 1 วัน</InputLeftAddon>
-            <Field
-              as={Input}
-              type="number"
-              name="vibrateTwa"
-              placeholder="ใส่เฉพาะตัวเลข"
-              step={0.01}
-            />
-          </InputGroup>
-        </div>
+        <FormErrorMessage>{errors.silicaDust}</FormErrorMessage>
       </FormControl>
 
       <FormControl isInvalid={!!errors.workingHours && touched.workingHours}>
@@ -254,7 +187,7 @@ export default function WorkInfoTab({ nextTab, prevTab }) {
       </FormControl>
 
       <FormControl isInvalid={!!errors.workingYears && touched.workingYears}>
-        <FormLabel>ประสบการณ์ทำครกหิน*</FormLabel>
+        <FormLabel>ประสบการณ์ทำอาชีพแกะสลักหิน*</FormLabel>
         <InputGroup>
           <Field
             as={Input}

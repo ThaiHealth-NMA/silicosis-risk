@@ -65,11 +65,6 @@ export default function RegisterWorkerForm() {
           personalId,
           position: values.position,
           silicaDust: values.silicaDust,
-          vibrateX: values.vibrateX,
-          vibrateY: values.vibrateY,
-          vibrateZ: values.vibrateZ,
-          vibrateAvg: values.vibrateAvg,
-          vibrateTwa: values.vibrateTwa,
           workingHours: values.workingHours,
           workingWeeks: values.workingWeeks,
           workingYears: values.workingYears,
@@ -87,10 +82,9 @@ export default function RegisterWorkerForm() {
           bodyWeight: values.bodyWeight,
           bodyHeight: values.bodyHeight,
           bmi: values.bmi,
+          smoking: values.smoking,
           medical: values.medical,
           diseases: values.diseases,
-          earSymptoms: values.earSymptoms,
-          earSymptomsDetails: values.earSymptomsDetails,
         }),
       ]);
 
@@ -158,11 +152,6 @@ export default function RegisterWorkerForm() {
         bornAddress: "",
         position: "",
         silicaDust: "",
-        vibrateX: "",
-        vibrateY: "",
-        vibrateZ: "",
-        vibrateAvg: "",
-        vibrateTwa: "",
         workingHours: "",
         workingWeeks: "",
         workingYears: "",
@@ -174,10 +163,9 @@ export default function RegisterWorkerForm() {
         bodyWeight: "",
         bodyHeight: "",
         bmi: "",
+        smoking: "",
         medical: "",
         disease: "",
-        earSymptoms: "",
-        earSymptomsDetails: "",
       }}
       onSubmit={(values, actions) => handleSubmit(values, actions, resetTab)}
     >

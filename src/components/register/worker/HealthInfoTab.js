@@ -21,7 +21,6 @@ export default function HealthInfoTab({ prevTab, isLoading }) {
     useFormikContext();
   const { bodyWeight, bodyHeight, bmi } = values;
   const [disableOtherDiseases, setDisableOtherDiseases] = useState(false);
-  const [earSymptoms, setEarSymptoms] = useState("");
 
   useEffect(() => {
     if (bodyWeight && bodyHeight) {
@@ -58,7 +57,7 @@ export default function HealthInfoTab({ prevTab, isLoading }) {
   };
 
   const isFormValid = () => {
-    return values.medical && values.diseases && values.earSymptoms;
+    return values.medical && values.smoking && values.diseases;
   };
 
   return (
@@ -130,7 +129,28 @@ export default function HealthInfoTab({ prevTab, isLoading }) {
         </InputGroup>
       </FormControl>
 
-      <FormControl isInvalid={!!errors.medical && touched.medical}>
+      <FormControl isInvalid={!!errors.smoking && touched.smoking}>
+        <FormLabel>ประวัติการสูบบุหรี่*</FormLabel>
+        <Field
+          as={Select}
+          name="smoking"
+          validate={(value) => {
+            let error;
+            if (!value) {
+              error = "กรุณาเลือกประวัติการสูบบุหรี่";
+            }
+            return error;
+          }}
+        >
+          <option value="">เลือกประวัติการสูบบุหรี่</option>
+          <option value=">ไม่เคยสูบ">ไม่เคยสูบ</option>
+          <option value="เคยสูบ">เคยสูบ แต่ปัจจุบันเลิกแล้ว</option>
+          <option value="สูบ">สูบ</option>
+        </Field>
+        <FormErrorMessage>{errors.smoking}</FormErrorMessage>
+      </FormControl>
+
+      <FormControl isInvalid={!!errors.smoking && touched.smoking}>
         <FormLabel>สิทธิการรักษาพยาบาล*</FormLabel>
         <Field
           as={Select}
@@ -166,13 +186,34 @@ export default function HealthInfoTab({ prevTab, isLoading }) {
                   value="โรคปอดฝุ่นหิน"
                   isDisabled={disableOtherDiseases}
                 >
-                  โรคประสาทหูเสื่อม/สูญเสียการได้ยิน
+                  โรคปอดฝุ่นหิน (ซิลิโคสิส)
+                </Checkbox>
+                <Checkbox value="วัณโรคปอด" isDisabled={disableOtherDiseases}>
+                  วัณโรคปอด
+                </Checkbox>
+                <Checkbox
+                  value="โรคมะเร็งปอด"
+                  isDisabled={disableOtherDiseases}
+                >
+                  โรคมะเร็งปอด
+                </Checkbox>
+                <Checkbox
+                  value="โรคถุงลมโป่งพอง"
+                  isDisabled={disableOtherDiseases}
+                >
+                  โรคถุงลมโป่งพอง
+                </Checkbox>
+                <Checkbox value="ภูมิแพ้" isDisabled={disableOtherDiseases}>
+                  ภูมิแพ้
+                </Checkbox>
+                <Checkbox value="หอบหืด" isDisabled={disableOtherDiseases}>
+                  หอบหืด
                 </Checkbox>
                 <Checkbox
                   value="โรคประสาทหูเสื่อม"
                   isDisabled={disableOtherDiseases}
                 >
-                  โรคปอดฝุ่นหิน (ซิลิโคสิส)
+                  โรคประสาทหูเสื่อม/สูญเสียการได้ยิน
                 </Checkbox>
                 <Checkbox value="โรคเบาหวาน" isDisabled={disableOtherDiseases}>
                   โรคเบาหวาน
@@ -182,12 +223,6 @@ export default function HealthInfoTab({ prevTab, isLoading }) {
                   isDisabled={disableOtherDiseases}
                 >
                   โรคหลอดเลือดสมองและหัวใจ
-                </Checkbox>
-                <Checkbox
-                  value="โรคถุงลมโป่งพอง"
-                  isDisabled={disableOtherDiseases}
-                >
-                  โรคถุงลมโป่งพอง
                 </Checkbox>
                 <Checkbox value="โรคมะเร็ง" isDisabled={disableOtherDiseases}>
                   โรคมะเร็ง
@@ -212,37 +247,6 @@ export default function HealthInfoTab({ prevTab, isLoading }) {
           )}
         </Field>
       </FormControl>
-
-      <FormControl>
-        <FormLabel>อาการผิดปกติเกี่ยวกับหู*</FormLabel>
-        <Field
-          as={Select}
-          name="earSymptoms"
-          onChange={(e) => {
-            setEarSymptoms(e.target.value);
-            setFieldValue("earSymptoms", e.target.value);
-            if (e.target.value !== "มีอาการ") {
-              setFieldValue("earSymptomsDetails", "");
-            }
-          }}
-        >
-          <option value="">เลือกอาการผิดปกติเกี่ยวกับหู</option>
-          <option value="ไม่มีอาการ">ไม่มีอาการ</option>
-          <option value="มีอาการ">มีอาการ</option>
-        </Field>
-      </FormControl>
-
-      {earSymptoms === "มีอาการ" && (
-        <FormControl>
-          <FormLabel>ระบุอาการผิดปกติเกี่ยวกับหู*</FormLabel>
-          <Field
-            as={Input}
-            type="text"
-            name="earSymptomsDetails"
-            placeholder="ระบุอาการผิดปกติเกี่ยวกับหู"
-          />
-        </FormControl>
-      )}
 
       <div className="flex justify-between gap-10">
         <Button

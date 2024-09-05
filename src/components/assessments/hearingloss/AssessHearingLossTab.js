@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { Field, useFormikContext } from "formik";
 import { useEffect } from "react";
-import { noiseOptions } from "../../register/worker/Option";
+import { silicaDustOptions } from "../../register/worker/Option";
 import { MdNavigateNext } from "react-icons/md";
 
 export default function AssessHearingLossTab({ submitForm }) {
@@ -19,7 +19,7 @@ export default function AssessHearingLossTab({ submitForm }) {
     useFormikContext();
 
   useEffect(() => {
-    const selectedPosition = noiseOptions.find(
+    const selectedPosition = silicaDustOptions.find(
       (option) => option.value === values.position
     );
 
@@ -65,7 +65,7 @@ export default function AssessHearingLossTab({ submitForm }) {
             return error;
           }}
         >
-          {noiseOptions.map((option) => (
+          {silicaDustOptions.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
             </option>

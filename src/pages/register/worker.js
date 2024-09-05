@@ -12,7 +12,7 @@ export default function RegisterWorkerPage() {
         <meta name="description" content="Register Worker" />
       </Head>
 
-      <nav className="w-full h-12 bg-success-light">
+      <nav className="w-full h-12 bg-accent-light">
         <div className="max-w-[760px] mx-auto  pt-2 pl-2 ">
           <Link href="/" className="flex items-center w-fit">
             <MdNavigateBefore className="text-4xl text-neutral" />
