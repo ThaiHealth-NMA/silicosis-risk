@@ -6,12 +6,11 @@ export default async function handler(req, res) {
       audiometry_category,
       audiometry_type,
       audiometry_result,
-      ear_difference, // Optional field
+      ear_difference,
       firstName,
       lastName,
     } = req.body;
 
-    // Check for required fields
     if (
       !firstName ||
       !lastName ||
@@ -25,7 +24,6 @@ export default async function handler(req, res) {
     }
 
     try {
-      // Fetch personal ID based on first and last name
       const { data: personalData, error: personalError } = await supabase
         .from("personal")
         .select("id")
@@ -41,7 +39,6 @@ export default async function handler(req, res) {
 
       const personalId = personalData.id;
 
-      // Insert audiometry data, including ear_difference only if it's provided
       const insertData = {
         personal_id: personalId,
         audiometry_category,
@@ -49,7 +46,6 @@ export default async function handler(req, res) {
         audiometry_result,
       };
 
-      // Conditionally include ear_difference if it exists
       if (ear_difference !== undefined) {
         insertData.ear_difference = ear_difference;
       }

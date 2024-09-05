@@ -1,12 +1,11 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { ChakraProvider } from "@chakra-ui/react";
-import { HearingLossRiskProvider } from "@/context/HearingLossRiskContext";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import * as gtag from "../../lib/gtag";
-
 import "@/styles/globals.css";
+import { SilicosisRiskProvider } from "@/context/SilicosisRiskContext";
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();
@@ -23,13 +22,13 @@ export default function App({ Component, pageProps }) {
 
   return (
     <ChakraProvider>
-      <HearingLossRiskProvider>
+      <SilicosisRiskProvider>
         <main>
           <Component {...pageProps} />
           <Analytics />
           <SpeedInsights />
         </main>
-      </HearingLossRiskProvider>
+      </SilicosisRiskProvider>
     </ChakraProvider>
   );
 }

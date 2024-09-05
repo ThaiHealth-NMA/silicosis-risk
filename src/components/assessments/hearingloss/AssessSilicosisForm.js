@@ -19,13 +19,13 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { Formik, Form, Field } from "formik";
-import AssessHearingLossTab from "./AssessHearingLossTab";
-import { useHearingLossRisk } from "@/context/HearingLossRiskContext";
+import AssessSilicosisTab from "./AssessSilicosisTab";
 import RiskGauge from "@/components/gauge/RiskGauge";
-import AssessHaringLossResult from "./AssessHaringLossResult";
+import AssessSilicosisResult from "./AssessSilicosisResult";
 import { MdLocationOn, MdNavigateBefore } from "react-icons/md";
 import Link from "next/link";
 import axios from "axios";
+import { useSilicosisRisk } from "@/context/SilicosisRiskContext";
 
 export default function AssessSilicosisForm() {
   const [tabIndex, setTabIndex] = useState(0);
@@ -34,22 +34,22 @@ export default function AssessSilicosisForm() {
   const toast = useToast();
 
   const {
-    hearingLossRiskScore,
-    hearingLossRiskLevel,
-    calculateHearingLossRisk,
-    resetHearingLossRisk,
-  } = useHearingLossRisk();
+    silicosisRiskScore,
+    silicosisRiskLevel,
+    calculateSilicosisRisk,
+    resetSilicosisRisk,
+  } = useSilicosisRisk();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
-    resetHearingLossRisk();
+    resetSilicosisRisk();
     setLoading(false);
   }, []);
 
   const handleCalculateRisk = (values) => {
     try {
-      calculateHearingLossRisk(values);
+      calculateSilicosisRisk(values);
       setTabIndex(1);
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch {
@@ -68,15 +68,15 @@ export default function AssessSilicosisForm() {
     try {
       const response = await axios.post("/api/silicosis", {
         position: values.position,
-        noise: values.noise,
-        noiseLevel: values.noiseLevel,
+        silicaDust: values.silicaDust,
+        silicaDustLevel: values.silicaDustLevel,
         workingHours: values.workingHours,
-        bodyHeight: values.bodyHeight,
-        earSymptoms: values.earSymptoms,
+        diseases: values.diseases,
+        workSeparation: values.workSeparation,
         firstName: values.firstName,
         lastName: values.lastName,
-        riskScore: hearingLossRiskScore,
-        riskLevel: hearingLossRiskLevel,
+        riskScore: silicosisRiskScore,
+        riskLevel: silicosisRiskLevel,
         riskLatitude: values.riskLatitude,
         riskLongitude: values.riskLongitude,
       });
@@ -122,11 +122,11 @@ export default function AssessSilicosisForm() {
     <Formik
       initialValues={{
         position: "",
-        noise: "",
-        noiseLevel: "",
+        silicaDust: "",
+        silicaDustLevel: "",
         workingHours: "",
-        bodyHeight: "",
-        earSymptoms: "",
+        diseases: "",
+        workSeparation: "",
         firstName: "",
         lastName: "",
         riskLatitude: "",
@@ -135,7 +135,6 @@ export default function AssessSilicosisForm() {
       onSubmit={handleCalculateRisk}
     >
       {({ resetForm, submitForm, values, setFieldValue }) => {
-        // Move handleGeolocation inside the render props to access setFieldValue
         const handleGeolocation = () => {
           if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((position) => {
@@ -155,17 +154,17 @@ export default function AssessSilicosisForm() {
 
         return (
           <Form>
-            <RiskGauge riskLevel={hearingLossRiskLevel} />
+            <RiskGauge riskLevel={silicosisRiskLevel} />
             <Tabs index={tabIndex} onChange={(index) => setTabIndex(index)}>
               <TabPanels>
                 <TabPanel>
-                  <AssessHearingLossTab submitForm={submitForm} />
+                  <AssessSilicosisTab submitForm={submitForm} />
                   <Button
                     type="button"
                     onClick={() => {
                       resetForm();
                       resetTab();
-                      resetHearingLossRisk();
+                      resetSilicosisRisk();
                       window.scrollTo({ top: 0, behavior: "smooth" });
                     }}
                     className="w-full mt-4"
@@ -175,14 +174,14 @@ export default function AssessSilicosisForm() {
                 </TabPanel>
 
                 <TabPanel>
-                  <AssessHaringLossResult riskLevel={hearingLossRiskLevel} />
+                  <AssessSilicosisResult riskLevel={silicosisRiskLevel} />
                   <div className="flex gap-4 items-center mt-5">
                     <Button
                       type="button"
                       onClick={() => {
                         resetForm();
                         resetTab();
-                        resetHearingLossRisk();
+                        resetSilicosisRisk();
                         window.scrollTo({ top: 0, behavior: "smooth" });
                       }}
                       className="w-full"
@@ -207,7 +206,7 @@ export default function AssessSilicosisForm() {
                       onClick={() => {
                         resetForm();
                         resetTab();
-                        resetHearingLossRisk();
+                        resetSilicosisRisk();
                       }}
                     >
                       กลับสู่หน้าหลัก

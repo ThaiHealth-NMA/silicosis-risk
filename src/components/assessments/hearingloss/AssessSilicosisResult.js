@@ -1,10 +1,10 @@
-import { HearingLossRecommend } from "./HearingLossRecommend";
+import { riskRecommend } from "./RiskRecommend";
 
-export default function AssessHaringLossResult({ riskLevel }) {
+export default function AssessSilicosisResult({ riskLevel }) {
   const details =
-    HearingLossRecommend.find(
+    riskRecommend.find(
       (risk) => riskLevel >= risk.range[0] && riskLevel <= risk.range[1]
-    ) || HearingLossRecommend[0];
+    ) || riskRecommend[0];
 
   return (
     <div className={`p-4 rounded-md border-2 ${details.border}`}>

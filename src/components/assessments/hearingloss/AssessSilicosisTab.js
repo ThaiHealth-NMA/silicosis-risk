@@ -11,10 +11,14 @@ import {
 } from "@chakra-ui/react";
 import { Field, useFormikContext } from "formik";
 import { useEffect } from "react";
-import { silicaDustOptions } from "../../register/worker/Option";
+import {
+  diseaseOptions,
+  silicaDustOptions,
+  workOptions,
+} from "../../register/worker/Option";
 import { MdNavigateNext } from "react-icons/md";
 
-export default function AssessHearingLossTab({ submitForm }) {
+export default function AssessSilicosisTab({ submitForm }) {
   const { values, setFieldValue, errors, touched, handleBlur } =
     useFormikContext();
 
@@ -24,29 +28,29 @@ export default function AssessHearingLossTab({ submitForm }) {
     );
 
     if (selectedPosition) {
-      if (!values.noiseLevel || values.noiseLevel === null) {
-        setFieldValue("noiseLevel", "เฉลี่ย");
+      if (!values.silicaDustLevel || values.silicaDustLevel === null) {
+        setFieldValue("silicaDustLevel", "เฉลี่ย");
       }
 
-      if (values.noiseLevel === "ต่ำสุด") {
-        setFieldValue("noise", selectedPosition.noiseMin || "");
-      } else if (values.noiseLevel === "เฉลี่ย") {
-        setFieldValue("noise", selectedPosition.noiseAvg || "");
-      } else if (values.noiseLevel === "สูงสุด") {
-        setFieldValue("noise", selectedPosition.noiseMax || "");
+      if (values.silicaDustLevel === "ต่ำสุด") {
+        setFieldValue("silicaDust", selectedPosition.silicaDustMin || "");
+      } else if (values.silicaDustLevel === "เฉลี่ย") {
+        setFieldValue("silicaDust", selectedPosition.silicaDustAvg || "");
+      } else if (values.silicaDustLevel === "สูงสุด") {
+        setFieldValue("silicaDust", selectedPosition.silicaDustMax || "");
       }
     } else {
-      setFieldValue("noise", "");
+      setFieldValue("silicaDust", "");
     }
-  }, [values.position, values.noiseLevel, setFieldValue]);
+  }, [values.position, values.silicaDustLevel, setFieldValue]);
 
   const isFormValid = () => {
     return (
       values.position &&
-      values.noise &&
+      values.silicaDust &&
       values.workingHours &&
-      values.bodyHeight &&
-      values.earSymptoms
+      values.diseases &&
+      values.workSeparation
     );
   };
 
@@ -74,13 +78,13 @@ export default function AssessHearingLossTab({ submitForm }) {
         <FormErrorMessage>{errors.position}</FormErrorMessage>
       </FormControl>
 
-      <FormControl isInvalid={!!errors.noise && touched.noise}>
+      <FormControl isInvalid={!!errors.silicaDust && touched.silicaDust}>
         <div className="flex flex-row items-center justify-between mb-1">
-          <FormLabel>ระดับเสียง*</FormLabel>
+          <FormLabel>ความเข้มข้นฝุ่นซิลิกา*</FormLabel>
           {values.position !== "อื่น ๆ" && (
             <div>
               <FormControl>
-                <Field as={Select} name="noiseLevel">
+                <Field as={Select} name="silicaDustLevel">
                   <option value="ต่ำสุด">ต่ำสุด</option>
                   <option value="เฉลี่ย">เฉลี่ย</option>
                   <option value="สูงสุด">สูงสุด</option>
@@ -93,23 +97,25 @@ export default function AssessHearingLossTab({ submitForm }) {
           <Field
             as={Input}
             type="number"
-            name="noise"
+            name="silicaDust"
             placeholder="ใส่เฉพาะตัวเลข"
             min={0}
             step={0.01}
             validate={(value) => {
               let error;
               if (!value) {
-                error = "กรุณาใส่ข้อมูลระดับความดันเสียง";
+                error = "กรุณาใส่ข้อมูลความเข้มข้นฝุ่นซิลิกา";
               } else if (value < 0) {
-                error = "ข้อมูลระดับความดันเสียงต้องไม่ต่ำกว่า 0 db(A)";
+                error = "ข้อมูลความเข้มข้นฝุ่นซิลิกาต้องไม่ต่ำกว่า 0";
               }
               return error;
             }}
           />
-          <InputRightAddon>dB(A)</InputRightAddon>
+          <InputRightAddon>
+            mg/m<sup>3</sup>
+          </InputRightAddon>
         </InputGroup>
-        <FormErrorMessage>{errors.noise}</FormErrorMessage>
+        <FormErrorMessage>{errors.silicaDust}</FormErrorMessage>
       </FormControl>
 
       <FormControl isInvalid={!!errors.workingHours && touched.workingHours}>
@@ -142,40 +148,40 @@ export default function AssessHearingLossTab({ submitForm }) {
         <FormErrorMessage>{errors.workingHours}</FormErrorMessage>
       </FormControl>
 
-      <FormControl isInvalid={!!errors.bodyHeight && touched.bodyHeight}>
-        <FormLabel>ส่วนสูงร่างกาย*</FormLabel>
-        <InputGroup>
-          <Field
-            as={Input}
-            type="number"
-            name="bodyHeight"
-            placeholder="ใส่เฉพาะตัวเลข"
-            min={50}
-            step={1}
-            validate={(value) => {
-              let error;
-              if (value === 0) {
-                error = "ข้อมูลส่วนสูงร่างกายต้องไม่ต่ำกว่า 1 เซนติเมตร";
-              } else if (!value) {
-                error = "กรุณาใส่ข้อมูลส่วนสูงร่างกาย";
-              } else if (value < 1) {
-                error = "ข้อมูลส่วนสูงร่างกายต้องไม่ต่ำกว่า 1 เซนติเมตร";
-              }
-              return error;
-            }}
-          />
-          <InputRightAddon>เซนติเมตร</InputRightAddon>
-        </InputGroup>
-        <FormErrorMessage>{errors.bodyHeight}</FormErrorMessage>
+      <FormControl isInvalid={!!errors.diseases && touched.diseases}>
+        <FormLabel>การมีโรคประจำตัว*</FormLabel>
+        <Field as={Select} name="diseases">
+          {diseaseOptions.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </Field>
+        <FormErrorMessage>{errors.diseases}</FormErrorMessage>
       </FormControl>
 
-      <FormControl>
-        <FormLabel>อาการผิดปกติเกี่ยวกับหู*</FormLabel>
-        <Field as={Select} name="earSymptoms">
-          <option value="">เลือกอาการผิดปกติเกี่ยวกับหู</option>
-          <option value="ไม่มีอาการ">ไม่มีอาการ</option>
-          <option value="มีอาการ">มีอาการ</option>
+      <FormControl
+        isInvalid={!!errors.workSeparation && touched.workSeparation}
+      >
+        <FormLabel>ลักษณะสถานที่ทำงาน*</FormLabel>
+        <Field
+          as={Select}
+          name="workSeparation"
+          validate={(value) => {
+            let error;
+            if (!value) {
+              error = "กรุณาเลือกลักษณะสถานที่ทำงาน";
+            }
+            return error;
+          }}
+        >
+          {workOptions.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
         </Field>
+        <FormErrorMessage>{errors.workSeparation}</FormErrorMessage>
       </FormControl>
 
       <Button
