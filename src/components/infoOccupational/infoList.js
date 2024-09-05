@@ -1,40 +1,40 @@
 export const infoList = [
   {
-    title: "รู้จักโรคประสาทหูเสื่อมจากการทำงาน",
-    link: "/images/info/info-hearingloss-1.jpg",
-    type: "Image",
-    ref: "https://www.facebook.com/strongworkers/photos/a.2321619421455504/2387637304853715/?type=3&locale=pl_PL",
+    title: "สิทธิกฎหมาย พรบ.โรคจากการประกอบอาชีพ พ.ศ.2562",
+    link: "https://www.youtube.com/watch?v=wBNlzg3VXng",
+    type: "Video",
+    ref: "https://www.youtube.com/watch?v=wBNlzg3VXng",
   },
   {
-    title: "รู้จักอันตรายจากเสียงดัง",
-    link: "/images/info/info-hearingloss-3.jpg",
+    title: "ซิลิโคสิส วิกฤตสุขภาพปอด",
+    link: "/images/info/info-silicosis-1.jpg",
     type: "Image",
-    ref: "https://www.tosh.or.th/index.php/media-relations/poster/item/415-noise",
+    ref: "https://www.facebook.com/strongworkers/photos/a.2321619421455504/2963230200627753/",
   },
   {
-    title: "การควบคุมป้องกันอันตรายจากเสียงดัง",
-    link: "/images/info/info-hearingloss-2.jpg",
+    title: "โรคปอดฝุ่นหินทราย จากการทำงาน",
+    link: "/images/info/info-silicosis-3.jpg",
     type: "Image",
-    ref: "https://www.tosh.or.th/index.php/media-relations/poster/item/415-noise",
+    ref: "https://ddc.moph.go.th/odpc4/journal_detail.php?publish=11918",
   },
   {
-    title:
-      "แนวทางการเฝ้าระวังการ ป้องกัน ภาวะสูญเสียการได้ยิน จากเสียงดัง จากการประกอบอาชีพ",
-    link: "https://ddc.moph.go.th/uploads/publish/1030820200713105552.pdf",
+    title: "สูดฝุ่นเยอะ เสี่ยงปอดพัง",
+    link: "/images/info/info-silicosis-2.jpg",
+    type: "Image",
+    ref: "https://datariskcom-ddc.moph.go.th/download/%E0%B8%AA%E0%B8%B9%E0%B8%94%E0%B8%9D%E0%B8%B8%E0%B9%88%E0%B8%99%E0%B9%80%E0%B8%A2%E0%B8%AD%E0%B8%B0-%E0%B9%80%E0%B8%AA%E0%B8%B5%E0%B9%88%E0%B8%A2%E0%B8%87%E0%B8%9B%E0%B8%AD%E0%B8%94%E0%B8%9E%E0%B8%B1/",
+  },
+  {
+    title: "คู่มือแรงงานนอกระบบปลอดภัยใส่ใจสุขภาพ (กลุ่มอาชีพแกะสลักหิน)",
+    link: "http://www.sadathai.org/wp-content/uploads/2018/10/%E0%B8%84%E0%B8%B9%E0%B9%88%E0%B8%A1%E0%B8%B7%E0%B8%AD%E0%B9%81%E0%B8%A3%E0%B8%87%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%99%E0%B8%AD%E0%B8%81%E0%B8%A3%E0%B8%B0%E0%B8%9A%E0%B8%9A%E0%B8%9B%E0%B8%A5%E0%B8%AD%E0%B8%94%E0%B8%A0%E0%B8%B1%E0%B8%A2%E0%B9%83%E0%B8%AA%E0%B9%88%E0%B9%83%E0%B8%88%E0%B8%AA%E0%B8%B8%E0%B8%82%E0%B8%A0%E0%B8%B2%E0%B8%9E-%E0%B8%81%E0%B8%A5%E0%B8%B8%E0%B9%88%E0%B8%A1%E0%B8%AD%E0%B8%B2%E0%B8%8A%E0%B8%B5%E0%B8%9E%E0%B9%81%E0%B8%81%E0%B8%B0%E0%B8%AA%E0%B8%A5%E0%B8%B1%E0%B8%81%E0%B8%AB%E0%B8%B4%E0%B8%99.pdf",
     type: "PDF",
-    ref: "https://ddc.moph.go.th/uploads/publish/1030820200713105552.pdf",
+    ref: "http://www.sadathai.org/wp-content/uploads/2018/10/%E0%B8%84%E0%B8%B9%E0%B9%88%E0%B8%A1%E0%B8%B7%E0%B8%AD%E0%B9%81%E0%B8%A3%E0%B8%87%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%99%E0%B8%AD%E0%B8%81%E0%B8%A3%E0%B8%B0%E0%B8%9A%E0%B8%9A%E0%B8%9B%E0%B8%A5%E0%B8%AD%E0%B8%94%E0%B8%A0%E0%B8%B1%E0%B8%A2%E0%B9%83%E0%B8%AA%E0%B9%88%E0%B9%83%E0%B8%88%E0%B8%AA%E0%B8%B8%E0%B8%82%E0%B8%A0%E0%B8%B2%E0%B8%9E-%E0%B8%81%E0%B8%A5%E0%B8%B8%E0%B9%88%E0%B8%A1%E0%B8%AD%E0%B8%B2%E0%B8%8A%E0%B8%B5%E0%B8%9E%E0%B9%81%E0%B8%81%E0%B8%B0%E0%B8%AA%E0%B8%A5%E0%B8%B1%E0%B8%81%E0%B8%AB%E0%B8%B4%E0%B8%99.pdf",
   },
+
   {
-    title: "คลิป ประสาทหูเสื่อม เหตุจากการทำงาน ป้องกันได้อย่างไร",
-    link: "https://www.youtube.com/watch?v=2ek3A9SukJ0",
+    title: "โรคซิลิโคสิส (Silicosis) รักษาไม่หายแต่ป้องกันได้",
+    link: "https://www.youtube.com/watch?v=Dsd0f9rNAxA",
     type: "Video",
-    ref: "https://www.youtube.com/watch?v=2ek3A9SukJ0",
-  },
-  {
-    title: "คลิป อันตรายจากเสียงดัง และผลกระทบต่อการได้ยิน",
-    link: "https://www.youtube.com/watch?v=zlPX5eazfnM",
-    type: "Video",
-    ref: "https://www.youtube.com/watch?v=zlPX5eazfnM",
+    ref: "https://www.youtube.com/watch?v=Dsd0f9rNAxA",
   },
   {
     title: "คู่มือการปฏิบัติงานด้านคุ้มครองแรงงานนอกระบบ ประจำปี พ.ศ.2566",
