@@ -3,25 +3,19 @@ import { supabase } from "../../../../lib/supabase";
 export default async function handler(req, res) {
   if (req.method === "POST") {
     const {
-      audiometry_category,
-      audiometry_type,
-      audiometry_result,
-      ear_difference,
+      position,
+      silicaDust,
+      silicaDustLevel,
+      workingHours,
+      disease,
+      workSeparation,
       firstName,
       lastName,
+      riskScore,
+      riskLevel,
+      riskLatitude,
+      riskLongitude,
     } = req.body;
-
-    if (
-      !firstName ||
-      !lastName ||
-      !audiometry_category ||
-      !audiometry_type ||
-      !audiometry_result
-    ) {
-      return res
-        .status(400)
-        .json({ success: false, error: "Missing required fields" });
-    }
 
     try {
       const { data: personalData, error: personalError } = await supabase
@@ -31,7 +25,7 @@ export default async function handler(req, res) {
         .eq("last_name", lastName)
         .single();
 
-      if (personalError || !personalData) {
+      if (!personalData) {
         return res
           .status(404)
           .json({ success: false, error: "Personal record not found" });
@@ -39,21 +33,24 @@ export default async function handler(req, res) {
 
       const personalId = personalData.id;
 
-      const insertData = {
-        personal_id: personalId,
-        audiometry_category,
-        audiometry_type,
-        audiometry_result,
-      };
-
-      if (ear_difference !== undefined) {
-        insertData.ear_difference = ear_difference;
-      }
-
       const { data, error } = await supabase
-        .from("audiometry")
-        .insert([insertData])
-        .select("*");
+        .from("silicosis")
+        .insert([
+          {
+            personal_id: personalId,
+            position,
+            silica_dust: silicaDust,
+            silica_dust_level: silicaDustLevel,
+            working_hours: workingHours,
+            disease,
+            work_separation: workSeparation,
+            risk_score: riskScore,
+            risk_level: riskLevel,
+            risk_latitude: riskLatitude,
+            risk_longitude: riskLongitude,
+          },
+        ])
+        .select();
 
       if (error) {
         throw error;
@@ -66,7 +63,7 @@ export default async function handler(req, res) {
     }
   } else if (req.method === "GET") {
     try {
-      const { data, error } = await supabase.from("audiometry").select("*");
+      const { data, error } = await supabase.from("silicosis").select("*");
 
       if (error) {
         throw error;

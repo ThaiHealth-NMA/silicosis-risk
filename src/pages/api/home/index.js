@@ -3,13 +3,28 @@ import { supabase } from "../../../../lib/supabase";
 export default async function handler(req, res) {
   if (req.method === "POST") {
     const {
-      personalId,
       homeAddress,
       homeLatitude,
       homeLongitude,
       stayYears,
       bornAddress,
     } = req.body;
+
+    try {
+      const { data: personalData, error: personalError } = await supabase
+        .from("personal")
+        .select("id")
+        .eq("first_name", firstName)
+        .eq("last_name", lastName)
+        .single();
+
+      if (!personalData) {
+        return res
+          .status(404)
+          .json({ success: false, error: "Personal record not found" });
+      }
+
+      const personalId = personalData.id;
 
     const dataToInsert = {
       personal_id: personalId,

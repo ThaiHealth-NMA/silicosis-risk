@@ -49,7 +49,7 @@ export default function AssessSilicosisTab({ submitForm }) {
       values.position &&
       values.silicaDust &&
       values.workingHours &&
-      values.diseases &&
+      values.disease &&
       values.workSeparation
     );
   };
@@ -148,16 +148,16 @@ export default function AssessSilicosisTab({ submitForm }) {
         <FormErrorMessage>{errors.workingHours}</FormErrorMessage>
       </FormControl>
 
-      <FormControl isInvalid={!!errors.diseases && touched.diseases}>
+      <FormControl isInvalid={!!errors.disease && touched.disease}>
         <FormLabel>การมีโรคประจำตัว*</FormLabel>
-        <Field as={Select} name="diseases">
+        <Field as={Select} name="disease">
           {diseaseOptions.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
             </option>
           ))}
         </Field>
-        <FormErrorMessage>{errors.diseases}</FormErrorMessage>
+        <FormErrorMessage>{errors.disease}</FormErrorMessage>
       </FormControl>
 
       <FormControl
