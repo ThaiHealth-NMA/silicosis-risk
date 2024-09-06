@@ -6,7 +6,9 @@ export default function AdminLoginPage() {
   return (
     <div className="min-h-screen w-full">
       <Head>
-        <title>เข้าสู่ระบบจัดการผู้ประกอบอาชีพทำครกหิน อ.เมือง จ.ลำปาง</title>
+        <title>
+          ระบบจัดการข้อมูลผู้ประกอบอาชีพแกะสลักหิน อ.สีคิ้ว จ.นครราชสีมา
+        </title>
         <meta name="description" content="Health Risk Assessment Admin Login" />
       </Head>
 
