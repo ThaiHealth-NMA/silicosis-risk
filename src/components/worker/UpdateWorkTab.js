@@ -31,11 +31,6 @@ export default function UpdateWorkTab() {
     workStatus: "",
     position: "",
     silicaDust: "",
-    vibrateX: "",
-    vibrateY: "",
-    vibrateZ: "",
-    vibrateAvg: "",
-    vibrateTwa: "",
     workingHours: "",
     workingWeeks: "",
     workingYears: "",
@@ -57,7 +52,7 @@ export default function UpdateWorkTab() {
         setInitialValues({
           workStatus: data.work_status || "",
           position: data.position || "",
-          silicaDust: data.silicaDust || "",
+          silicaDust: data.silica_dust || "",
           workingHours: data.working_hours || "",
           workingWeeks: data.working_weeks || "",
           workingYears: data.working_years || "",
@@ -199,12 +194,18 @@ export default function UpdateWorkTab() {
           <form onSubmit={handleSubmit}>
             <Stack spacing={4}>
               <FormControl>
-                <FormLabel>สถานะการทำครกหิน*</FormLabel>
+                <FormLabel>สถานะการทำอาชีพแกะสลักหิน*</FormLabel>
                 <Field as={Select} name="workStatus" onBlur={handleBlur}>
-                  <option value="">เลือกสถานะการทำครกหิน</option>
-                  <option value="ไม่เคยทำครกหิน">ไม่เคยทำครกหิน</option>
-                  <option value="เคยทำครกหิน">เคยทำครกหิน</option>
-                  <option value="ทำครกหินอยู่">ทำครกหินอยู่</option>
+                  <option value="">เลือกสถานะการทำอาชีพแกะสลักหิน</option>
+                  <option value="ไม่เคยทำอาชีพแกะสลักหิน">
+                    ไม่เคยทำอาชีพแกะสลักหิน
+                  </option>
+                  <option value="เคยทำอาชีพแกะสลักหิน">
+                    เคยทำอาชีพแกะสลักหิน
+                  </option>
+                  <option value="ทำอาชีพแกะสลักหินอยู่">
+                    ทำอาชีพแกะสลักหินอยู่
+                  </option>
                 </Field>
               </FormControl>
 
@@ -228,7 +229,7 @@ export default function UpdateWorkTab() {
               <FormControl
                 isInvalid={!!errors.silicaDust && touched.silicaDust}
               >
-                <FormLabel>ระดับเสียง*</FormLabel>
+                <FormLabel>ความเข้มข้นฝุ่นซิลิกา*</FormLabel>
                 <InputGroup>
                   <Field
                     as={Input}
@@ -238,7 +239,9 @@ export default function UpdateWorkTab() {
                     min={0}
                     step={0.01}
                   />
-                  <InputRightAddon>dB(A)</InputRightAddon>
+                  <InputRightAddon>
+                    mg/m<sup>3</sup>
+                  </InputRightAddon>
                 </InputGroup>
                 <FormErrorMessage>{errors.silicaDust}</FormErrorMessage>
               </FormControl>
