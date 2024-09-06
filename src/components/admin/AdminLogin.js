@@ -52,11 +52,11 @@ export default function AdminLogin() {
         className="shadow-lg"
       >
         <h1 className="text-2xl text-center font-bold pb-4">
-          เข้าสู่ระบบจัดการข้อมูล
+          ระบบจัดการข้อมูล
           <br />
-          ผู้ประกอบอาชีพทำครกหิน
+          ผู้ประกอบอาชีพแกะสลักหิน
           <br />
-          อ.เมือง จ.ลำปาง
+          อ.สีคิ้ว จ.นครราชสีมา
         </h1>
         <VStack spacing={4}>
           <FormControl id="account">
