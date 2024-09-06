@@ -60,10 +60,10 @@ export default function AdminLogin() {
         </h1>
         <VStack spacing={4}>
           <FormControl id="account">
-            <FormLabel>บัญชี</FormLabel>
+            <FormLabel>ชื่อบัญชี</FormLabel>
             <Input
               type="text"
-              placeholder="ใส่บัญชี"
+              placeholder="ใส่ชื่อบัญชี"
               value={account}
               onChange={(e) => setAccount(e.target.value)}
             />
