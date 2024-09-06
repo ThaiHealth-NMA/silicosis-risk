@@ -16,11 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { Field, Formik } from "formik";
 import { useEffect, useState } from "react";
-import {
-  noiseOptions,
-  vibrationOptions,
-  workOptions,
-} from "../register/worker/Option";
+import { silicaDustOptions, workOptions } from "../register/worker/Option";
 import { MdLocationOn } from "react-icons/md";
 import axios from "axios";
 import { useRouter } from "next/router";
@@ -34,7 +30,7 @@ export default function UpdateWorkTab() {
   const [initialValues, setInitialValues] = useState({
     workStatus: "",
     position: "",
-    noise: "",
+    silicaDust: "",
     vibrateX: "",
     vibrateY: "",
     vibrateZ: "",
@@ -61,12 +57,7 @@ export default function UpdateWorkTab() {
         setInitialValues({
           workStatus: data.work_status || "",
           position: data.position || "",
-          noise: data.noise || "",
-          vibrateX: data.vibrate_x || "",
-          vibrateY: data.vibrate_y || "",
-          vibrateZ: data.vibrate_z || "",
-          vibrateAvg: data.vibrate_avg || "",
-          vibrateTwa: data.vibrate_twa || "",
+          silicaDust: data.silicaDust || "",
           workingHours: data.working_hours || "",
           workingWeeks: data.working_weeks || "",
           workingYears: data.working_years || "",
@@ -136,23 +127,15 @@ export default function UpdateWorkTab() {
   };
 
   const updateFormValues = (position, setFieldValue) => {
-    const selectedNoisePosition = noiseOptions.find(
-      (option) => option.value === position
-    );
-    const selectedVibrationPosition = vibrationOptions.find(
+    const selectedSilicaDustPosition = silicaDustOptions.find(
       (option) => option.value === position
     );
 
-    if (selectedNoisePosition) {
-      setFieldValue("noise", selectedNoisePosition.noiseAvg || "");
-    }
-
-    if (selectedVibrationPosition) {
-      setFieldValue("vibrateX", selectedVibrationPosition.vibrateX || "");
-      setFieldValue("vibrateY", selectedVibrationPosition.vibrateY || "");
-      setFieldValue("vibrateZ", selectedVibrationPosition.vibrateZ || "");
-      setFieldValue("vibrateAvg", selectedVibrationPosition.vibrateAvg || "");
-      setFieldValue("vibrateTwa", selectedVibrationPosition.vibrateTwa || "");
+    if (selectedSilicaDustPosition) {
+      setFieldValue(
+        "silicaDust",
+        selectedSilicaDustPosition.silicaDustAvg || ""
+      );
     }
   };
 
@@ -161,12 +144,7 @@ export default function UpdateWorkTab() {
       await axios.put(`/api/working/${personalId}`, {
         workStatus: values.workStatus,
         position: values.position,
-        noise: values.noise,
-        vibrateX: values.vibrateX,
-        vibrateY: values.vibrateY,
-        vibrateZ: values.vibrateZ,
-        vibrateAvg: values.vibrateAvg,
-        vibrateTwa: values.vibrateTwa,
+        silicaDust: values.silicaDust,
         workingHours: values.workingHours,
         workingWeeks: values.workingWeeks,
         workingYears: values.workingYears,
@@ -238,7 +216,7 @@ export default function UpdateWorkTab() {
                   onChange={handlePositionChange}
                   onBlur={handleBlur}
                 >
-                  {noiseOptions.map((option) => (
+                  {silicaDustOptions.map((option) => (
                     <option key={option.value} value={option.value}>
                       {option.label}
                     </option>
@@ -247,78 +225,22 @@ export default function UpdateWorkTab() {
                 <FormErrorMessage>{errors.position}</FormErrorMessage>
               </FormControl>
 
-              <FormControl isInvalid={!!errors.noise && touched.noise}>
+              <FormControl
+                isInvalid={!!errors.silicaDust && touched.silicaDust}
+              >
                 <FormLabel>ระดับเสียง*</FormLabel>
                 <InputGroup>
                   <Field
                     as={Input}
                     type="number"
-                    name="noise"
+                    name="silicaDust"
                     placeholder="ใส่เฉพาะตัวเลข"
                     min={0}
                     step={0.01}
                   />
                   <InputRightAddon>dB(A)</InputRightAddon>
                 </InputGroup>
-                <FormErrorMessage>{errors.noise}</FormErrorMessage>
-              </FormControl>
-
-              <FormControl>
-                <FormLabel>
-                  ค่าการสั่นสะเทือน (m/s<sup>2</sup>)
-                </FormLabel>
-                <div className="grid grid-cols-2 gap-2 max-md:grid-cols-1">
-                  <InputGroup>
-                    <InputLeftAddon>แกน X</InputLeftAddon>
-                    <Field
-                      as={Input}
-                      type="number"
-                      name="vibrateX"
-                      placeholder="ใส่เฉพาะตัวเลข"
-                      step={0.01}
-                    />
-                  </InputGroup>
-                  <InputGroup>
-                    <InputLeftAddon>แกน Y</InputLeftAddon>
-                    <Field
-                      as={Input}
-                      type="number"
-                      name="vibrateY"
-                      placeholder="ใส่เฉพาะตัวเลข"
-                      step={0.01}
-                    />
-                  </InputGroup>
-                  <InputGroup>
-                    <InputLeftAddon>แกน Z</InputLeftAddon>
-                    <Field
-                      as={Input}
-                      type="number"
-                      name="vibrateZ"
-                      placeholder="ใส่เฉพาะตัวเลข"
-                      step={0.01}
-                    />
-                  </InputGroup>
-                  <InputGroup>
-                    <InputLeftAddon>ค่าการสั่นสะเทือนเฉลี่ย</InputLeftAddon>
-                    <Field
-                      as={Input}
-                      type="number"
-                      name="vibrateAvg"
-                      placeholder="ใส่เฉพาะตัวเลข"
-                      step={0.01}
-                    />
-                  </InputGroup>
-                  <InputGroup>
-                    <InputLeftAddon>ค่าเฉลี่ยรับสัมผัสใน 1 วัน</InputLeftAddon>
-                    <Field
-                      as={Input}
-                      type="number"
-                      name="vibrateTwa"
-                      placeholder="ใส่เฉพาะตัวเลข"
-                      step={0.01}
-                    />
-                  </InputGroup>
-                </div>
+                <FormErrorMessage>{errors.silicaDust}</FormErrorMessage>
               </FormControl>
 
               <FormControl
