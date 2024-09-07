@@ -9,14 +9,14 @@ export default async function handler(req, res) {
 
       if (workingError) throw workingError;
 
-      const { data: hearingLossData, error: hearingLossError } = await supabase
-        .from("hearingloss")
+      const { data: silicosisData, error: silicosisError } = await supabase
+        .from("silicosis")
         .select("*")
         .order("updated_at", { ascending: false });
 
-      if (hearingLossError) throw hearingLossError;
+      if (silicosisError) throw silicosisError;
 
-      const latestHearingLossMap = hearingLossData.reduce((acc, record) => {
+      const latestsilicosisMap = silicosisData.reduce((acc, record) => {
         if (
           !acc[record.personal_id] ||
           record.updated_at > acc[record.personal_id].updated_at
@@ -28,10 +28,10 @@ export default async function handler(req, res) {
 
       const combinedData = workingData
         .map((work) => {
-          const hearingLossRecord = latestHearingLossMap[work.personal_id];
+          const silicosisRecord = latestsilicosisMap[work.personal_id];
           return {
             noise: work.noise,
-            risk_level: hearingLossRecord ? hearingLossRecord.risk_level : null,
+            risk_level: silicosisRecord ? silicosisRecord.risk_level : null,
           };
         })
         .filter((item) => item.risk_level !== null);

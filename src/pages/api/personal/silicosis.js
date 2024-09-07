@@ -5,9 +5,9 @@ export default async function handler(req, res) {
     try {
       const { data, error } = await supabase.from("personal").select(`
         *,
-        hearingloss (*),
+        silicosis (*),
         working (*),
-        audiometry (*)
+        xray (*)
       `);
 
       if (error) throw error;

@@ -21,17 +21,15 @@ ChartJS.register(
   Legend
 );
 
-export default function WorkingHearingLossChart() {
+export default function WorkingSilicosisChart() {
   const [chartData, setChartData] = useState({ datasets: [] });
   const [noData, setNoData] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get("/api/working/hearingloss");
+        const response = await axios.get("/api/silicosis");
         const data = response.data;
-
-        console.log(data);
 
         if (!Array.isArray(data)) {
           throw new Error("Data is not an array");
@@ -44,14 +42,14 @@ export default function WorkingHearingLossChart() {
         }
 
         const scatterData = data.map((item) => ({
-          x: item.noise,
+          x: item.silica_dust,
           y: item.risk_level,
         }));
 
         setChartData({
           datasets: [
             {
-              label: "ระดับความเสี่ยง : ระดับเสียง",
+              label: "ระดับความเสี่ยง : ความเข้มข้นฝุ่นซิลิกา",
               data: scatterData,
               backgroundColor: "#ff3300",
               borderColor: "#ff9900",
@@ -92,7 +90,7 @@ export default function WorkingHearingLossChart() {
             tooltip: {
               callbacks: {
                 label: function (context) {
-                  return ` ระดับความเสี่ยง: ${context.raw.y}, ระดับเสียง : ${context.raw.x} dBA`;
+                  return ` ระดับความเสี่ยง: ${context.raw.y}, ความเข้มข้นฝุ่นซิลิกา : ${context.raw.x}`;
                 },
               },
             },
@@ -101,7 +99,7 @@ export default function WorkingHearingLossChart() {
             x: {
               title: {
                 display: true,
-                text: "ระดับเสียง (dBA)",
+                text: `ความเข้มข้นฝุ่นซิลิกา`,
               },
               beginAtZero: true,
             },
@@ -116,7 +114,7 @@ export default function WorkingHearingLossChart() {
         }}
       />
       <div className="text-center w-full py-2">
-        ระดับความเสี่ยงการรับสัมผัสเสียงดังกับระดับเสียงดัง
+        ระดับความเสี่ยงกับความเข้มข้นฝุ่นซิลิกา
       </div>
     </Box>
   );

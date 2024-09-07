@@ -32,7 +32,7 @@ export default function AdminWorkerListPage() {
   return (
     <div className="min-h-screen w-full">
       <Head>
-        <title>รายชื่อผู้ประกอบอาชีพทำครกหิน อ.เมือง จ.ลำปาง</title>
+        <title>รายชื่อผู้ประกอบอาชีพแกะสลักหินหิน อ.สีคิ้ว จ.นครราชสีมา</title>
         <meta
           name="description"
           content="Health Risk Assessment Admin dashboard"

@@ -29,10 +29,9 @@ export default function UpdateHealthTab() {
     bodyWeight: "",
     bodyHeight: "",
     bmi: "",
+    smoking: "",
     medical: "",
     diseases: [],
-    earSymptoms: "",
-    earSymptomsDetails: "",
   });
 
   useEffect(() => {
@@ -47,10 +46,9 @@ export default function UpdateHealthTab() {
           bodyWeight: data.body_weight || "",
           bodyHeight: data.body_height || "",
           bmi: data.bmi || "",
+          smoking: data.smoking || "",
           medical: data.medical || "",
           diseases: data.diseases || [],
-          earSymptoms: data.ear_symptoms || "",
-          earSymptomsDetails: data.ear_symptoms_details || "",
         });
       } catch (error) {
         toast({
@@ -208,6 +206,27 @@ export default function UpdateHealthTab() {
             </InputGroup>
           </FormControl>
 
+          <FormControl isInvalid={!!errors.smoking && touched.smoking}>
+            <FormLabel>ประวัติการสูบบุหรี่*</FormLabel>
+            <Field
+              as={Select}
+              name="smoking"
+              validate={(value) => {
+                let error;
+                if (!value) {
+                  error = "กรุณาเลือกประวัติการสูบบุหรี่";
+                }
+                return error;
+              }}
+            >
+              <option value="">เลือกประวัติการสูบบุหรี่</option>
+              <option value=">ไม่เคยสูบ">ไม่เคยสูบ</option>
+              <option value="เคยสูบ">เคยสูบ แต่ปัจจุบันเลิกแล้ว</option>
+              <option value="สูบ">สูบ</option>
+            </Field>
+            <FormErrorMessage>{errors.smoking}</FormErrorMessage>
+          </FormControl>
+
           <FormControl isInvalid={!!errors.medical && touched.medical}>
             <FormLabel>สิทธิการรักษาพยาบาล*</FormLabel>
             <Field
@@ -298,43 +317,6 @@ export default function UpdateHealthTab() {
               )}
             </Field>
           </FormControl>
-
-          <FormControl>
-            <FormLabel>อาการผิดปกติเกี่ยวกับหู*</FormLabel>
-            <Field
-              as={Select}
-              name="earSymptoms"
-              onChange={(e) => {
-                const value = e.target.value;
-                setEarSymptoms(value);
-                setFieldValue("earSymptoms", value);
-                if (value !== "มีอาการ") {
-                  setFieldValue("earSymptomsDetails", "");
-                }
-              }}
-            >
-              <option value="">เลือกอาการผิดปกติเกี่ยวกับหู</option>
-              <option value="ไม่มีอาการ">ไม่มีอาการ</option>
-              <option value="มีอาการ">มีอาการ</option>
-            </Field>
-          </FormControl>
-
-          {earSymptoms === "มีอาการ" && (
-            <FormControl
-              isInvalid={
-                !!errors.earSymptomsDetails && touched.earSymptomsDetails
-              }
-            >
-              <FormLabel>ระบุอาการผิดปกติเกี่ยวกับหู*</FormLabel>
-              <Field
-                as={Input}
-                type="text"
-                name="earSymptomsDetails"
-                placeholder="ระบุอาการผิดปกติเกี่ยวกับหู"
-              />
-              <FormErrorMessage>{errors.earSymptomsDetails}</FormErrorMessage>
-            </FormControl>
-          )}
 
           <Button type="submit" colorScheme="green">
             <span>บันทึกข้อมูล</span>

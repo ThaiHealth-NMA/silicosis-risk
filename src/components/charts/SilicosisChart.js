@@ -13,14 +13,14 @@ import { Box } from "@chakra-ui/react";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip);
 
-export default function HearingLossChart() {
+export default function SilicosisChart() {
   const [chartData, setChartData] = useState({ labels: [], datasets: [] });
   const [noData, setNoData] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get("/api/hearingloss");
+        const response = await axios.get("/api/silicosis");
         const data = response.data.data;
 
         if (!Array.isArray(data)) {
@@ -141,7 +141,7 @@ export default function HearingLossChart() {
             x: {
               title: {
                 display: false,
-                text: "ระดับความเสี่ยงจากการรับสัมผัสเสียงดัง",
+                text: "ระดับความเสี่ยงจากการรับสัมผัสฝุ่นซิลิกา",
               },
             },
             y: {
@@ -155,7 +155,7 @@ export default function HearingLossChart() {
         }}
       />
       <div className="text-center w-full py-2">
-        ระดับความเสี่ยงจากการรับสัมผัสเสียงดัง
+        ระดับความเสี่ยงจากการรับสัมผัสฝุ่นซิลิกา
       </div>
     </Box>
   );
