@@ -40,9 +40,9 @@ export default function AdminSidebar() {
             <p className="text-xl font-bold text-center">
               ระบบจัดการข้อมูล
               <br />
-              กลุ่มอาชีพทำครกหิน
+              กลุ่มอาชีพแกะสลักหิน
               <br />
-              อ.เมือง จ.ลำปาง
+              อ.สีคิ้ว จ.นครราชสีมา
             </p>
           </div>
 

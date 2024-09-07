@@ -18,7 +18,7 @@ import {
 import RiskBadge from "../badges/RiskBadge";
 import { RiFileEditLine } from "react-icons/ri";
 import { useRouter } from "next/router";
-import AudiometryBadge from "../badges/AudiometryBadge";
+import XrayBadge from "../badges/XrayBadge";
 import WorkStatusBadge from "../badges/WorkStatusBadge";
 
 export default function WorkerList() {
@@ -28,19 +28,19 @@ export default function WorkerList() {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRiskLevel, setSelectedRiskLevel] = useState("");
-  const [selectedAudiometryResult, setSelectedAudiometryResult] = useState("");
+  const [selectedXrayResult, setSelectedXrayResult] = useState("");
   const [selectedWorkStatus, setSelectedWorkStatus] = useState("");
   const router = useRouter();
   const workersPerPage = 10;
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [selectedRiskLevel, selectedAudiometryResult, selectedWorkStatus]);
+  }, [selectedRiskLevel, selectedXrayResult, selectedWorkStatus]);
 
   useEffect(() => {
     const fetchWorkers = async () => {
       try {
-        const response = await axios.get("/api/personal/hearingloss");
+        const response = await axios.get("/api/personal/silicosis");
         const sortedWorkers = response.data.data.sort(
           (a, b) => new Date(b.updated_at) - new Date(a.updated_at)
         );
@@ -56,14 +56,14 @@ export default function WorkerList() {
     fetchWorkers();
   }, []);
 
-  const getLastThreeHearingloss = (hearingloss) => {
-    if (!hearingloss || hearingloss.length === 0) return [];
+  const getLastThreeSilicosis = (silicosis) => {
+    if (!silicosis || silicosis.length === 0) return [];
 
-    const sortedHearingloss = [...hearingloss].sort(
+    const sortedSilicosis = [...silicosis].sort(
       (a, b) => new Date(b.created_at) - new Date(a.created_at)
     );
 
-    return sortedHearingloss.slice(0, 3);
+    return sortedSilicosis.slice(0, 3);
   };
 
   const matchesRiskLevel = (riskLevel, selectedLevel) => {
@@ -79,9 +79,9 @@ export default function WorkerList() {
     return riskLevel >= min && riskLevel <= max;
   };
 
-  const matchesAudiometryResult = (audiometryResult, selectedResult) => {
+  const matchesXrayResult = (xrayResult, selectedResult) => {
     if (selectedResult === "") return true;
-    return audiometryResult === selectedResult;
+    return xrayResult === selectedResult;
   };
 
   const matchesWorkStatus = (workStatus, selectedStatus) => {
@@ -98,24 +98,24 @@ export default function WorkerList() {
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
 
-    const lastThreeHearingloss = getLastThreeHearingloss(worker.hearingloss);
-    const recentRiskLevel = worker.hearingloss[0]?.risk_level;
-    const recentAudiometryResult = worker.audiometry[0]?.audiometry_result;
+    const lastThreeSilicosis = getLastThreeSilicosis(worker.silicosis);
+    const recentRiskLevel = worker.silicosis[0]?.risk_level;
+    const recentXrayResult = worker.xray[0]?.xray_chest;
     const recentWorkStatus = worker.working[0]?.work_status;
 
     const matchesRisk =
       selectedRiskLevel === "" ||
       matchesRiskLevel(recentRiskLevel, selectedRiskLevel);
 
-    const matchesAudiometry =
-      selectedAudiometryResult === "" ||
-      matchesAudiometryResult(recentAudiometryResult, selectedAudiometryResult);
+    const matchesXray =
+      selectedXrayResult === "" ||
+      matchesXrayResult(recentXrayResult, selectedXrayResult);
 
     const matchesStatus =
       selectedWorkStatus === "" ||
       matchesWorkStatus(recentWorkStatus, selectedWorkStatus);
 
-    return matchesSearch && matchesRisk && matchesAudiometry && matchesStatus;
+    return matchesSearch && matchesRisk && matchesXray && matchesStatus;
   });
 
   const currentWorkers = filteredWorkers.slice(
@@ -138,7 +138,7 @@ export default function WorkerList() {
         <div className="flex md:flex-row flex-col justify-between items-center">
           <div className="">
             <h1 className="text-xl font-semibold md:text-nowrap text-wrap">
-              รายชื่อผู้ประกอบอาชีพทำครกหิน
+              รายชื่อผู้ประกอบอาชีพแกะสลักหิน
             </h1>
             <span className="text-sm font-semibold text-neutral">
               จำนวน {filteredWorkers.length} ข้อมูล
@@ -153,19 +153,19 @@ export default function WorkerList() {
               size="sm"
             />
             <Select
-              placeholder="เลือกสถานะการทำครกหิน"
+              placeholder="เลือกสถานะการทำอาชีพแกะสลักหิน"
               value={selectedWorkStatus}
               onChange={(e) => setSelectedWorkStatus(e.target.value)}
               size="sm"
             >
-              <option value="ไม่เคยทำครกหิน" className="text-sm">
-                ไม่เคยทำครกหิน
+              <option value="ไม่เคยทำอาชีพแกะสลักหิน" className="text-sm">
+                ไม่เคยทำอาชีพแกะสลักหิน
               </option>
-              <option value="เคยทำครกหิน" className="text-sm">
-                เคยทำครกหิน
+              <option value="เคยทำอาชีพแกะสลักหิน" className="text-sm">
+                เคยทำอาชีพแกะสลักหิน
               </option>
-              <option value="ทำครกหินอยู่" className="text-sm">
-                ทำครกหินอยู่
+              <option value="ทำอาชีพแกะสลักหินอยู่" className="text-sm">
+                ทำอาชีพแกะสลักหินอยู่
               </option>
             </Select>
             <Select
@@ -192,9 +192,9 @@ export default function WorkerList() {
               </option>
             </Select>
             <Select
-              placeholder="เลือกผลการตรวจสมรรภภาพการได้ยิน"
-              value={selectedAudiometryResult}
-              onChange={(e) => setSelectedAudiometryResult(e.target.value)}
+              placeholder="เลือกผลการตรวจ x-ray ปอด"
+              value={selectedXrayResult}
+              onChange={(e) => setSelectedXrayResult(e.target.value)}
               size="sm"
             >
               <option value="ปกติ" className="text-sm">
@@ -224,20 +224,18 @@ export default function WorkerList() {
                   <Tr>
                     <Th className="text-sm"></Th>
                     <Th className="text-sm">ลำดับ</Th>
-                    <Th className="text-sm">สถานะการทำครกหิน</Th>
+                    <Th className="text-sm">สถานะการทำอาชีพแกะสลักหิน</Th>
                     <Th className="text-sm">ชื่อ นามสกุล</Th>
                     <Th className="text-sm">เพศ</Th>
                     <Th className="text-sm">อายุ</Th>
                     <Th className="text-sm">ระดับความเสี่ยง</Th>
-                    <Th className="text-sm hidden">ความเสี่ยงล่าสุด</Th>
-                    <Th className="text-sm">ผลการตรวจสมรรถภาพการได้ยิน</Th>
-                    <Th className="text-sm">รายละเอียด</Th>
+                    <Th className="text-sm">ผลการตรวจ x-ray ปอด</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
                   {currentWorkers.map((worker, index) => {
-                    const lastThreeHearingloss = getLastThreeHearingloss(
-                      worker.hearingloss
+                    const lastThreeSilicosis = getLastThreeSilicosis(
+                      worker.silicosis
                     );
 
                     return (
@@ -268,10 +266,10 @@ export default function WorkerList() {
                         <Td className="text-sm">{worker.gender}</Td>
                         <Td className="text-sm">{worker.age}</Td>
                         <Td className="text-sm flex gap-1">
-                          {worker.hearingloss.length === 0 ? (
+                          {worker.silicosis.length === 0 ? (
                             <RiskBadge riskLevel={null} />
                           ) : (
-                            lastThreeHearingloss.map((record) => (
+                            lastThreeSilicosis.map((record) => (
                               <RiskBadge
                                 key={record.created_at}
                                 riskLevel={record.risk_level}
@@ -279,17 +277,11 @@ export default function WorkerList() {
                             ))
                           )}
                         </Td>
-                        <Td className="text-sm hidden">
-                          {worker.hearingloss[0]?.risk_level}
-                        </Td>
                         <Td className="text-sm">
-                          <AudiometryBadge
+                          <XrayBadge
                             key={index}
-                            audiometry={worker.audiometry[0]?.audiometry_result}
+                            xray={worker.xray[0]?.xray_chest}
                           />
-                        </Td>
-                        <Td className="text-sm">
-                          {worker.audiometry[0]?.audiometry_type}
                         </Td>
                       </Tr>
                     );
@@ -306,7 +298,7 @@ export default function WorkerList() {
                 colorScheme="teal"
                 variant="outline"
               >
-                Previous
+                ก่อนหน้า
               </Button>
               <span className="text-sm">
                 Page {currentPage} of {totalPages}
@@ -317,7 +309,7 @@ export default function WorkerList() {
                 colorScheme="teal"
                 variant="outline"
               >
-                Next
+                ถัดไป
               </Button>
             </div>
           </>
