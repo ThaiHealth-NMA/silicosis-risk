@@ -12,7 +12,7 @@ export default function AssessSilicosisResult({ riskLevel }) {
         <p className="text-center text-md">
           ท่านมีความเสี่ยงทางสุขภาพ
           <br />
-          จากการรับสัมผัสเสียงดัง
+          จากการรับสัมผัสฝุ่นซิลิกา
         </p>
         <h3 className={`text-center text-3xl font-bold ${details.textColor}`}>
           ระดับ{details.level}
