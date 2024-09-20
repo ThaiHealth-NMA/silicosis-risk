@@ -8,13 +8,13 @@ const WorkStatusBadge = ({ workStatus }) => {
     if (workStatus === null || workStatus === undefined) {
       description = "ไม่พบข้อมูล";
       style = "bg-neutral text-neutral-content";
-    } else if (workStatus == "ไม่เคยทำครกหิน") {
+    } else if (workStatus == "ไม่เคยทำอาชีพแกะสลักหิน") {
       description = "ไม่เคยทำ";
       style = "bg-risk-level-0 text-risk-level-0-content";
-    } else if (workStatus == "เคยทำครกหิน") {
+    } else if (workStatus == "เคยทำอาชีพแกะสลักหิน") {
       description = "เคยทำ";
       style = "bg-risk-level-2 text-risk-level-2-content";
-    } else if (workStatus === "ทำครกหินอยู่") {
+    } else if (workStatus === "ทำอาชีพแกะสลักหินอยู่") {
       description = "ทำอยู่";
       style = "bg-risk-level-1 text-risk-level-1-content";
     }
