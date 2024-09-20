@@ -59,7 +59,7 @@ export default function UpdatePersonalTab() {
           firstName: data.first_name || "",
           lastName: data.last_name || "",
           phoneNumber: data.phone_number || "",
-          birth: data.birth || "",
+          birth: data.birth || null,
           age: data.age || "",
           nation: data.nation || "",
           homeAddress: data.home_address || "",
