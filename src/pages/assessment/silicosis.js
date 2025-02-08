@@ -2,7 +2,7 @@ import React from "react";
 import Head from "next/head";
 import { MdNavigateBefore } from "react-icons/md";
 import Link from "next/link";
-import AssessSilicosisForm from "@/components/assessments/hearingloss/AssessSilicosisForm";
+import AssessSilicosisForm from "@/components/assessments/silicosis/AssessSilicosisForm";
 
 export default function AssessmentSilicosisPage() {
   return (
