@@ -17,6 +17,7 @@ import {
   FormLabel,
   Stack,
   useToast,
+  Select,
 } from "@chakra-ui/react";
 import { Formik, Form, Field } from "formik";
 import AssessSilicosisTab from "./AssessSilicosisTab";
@@ -233,6 +234,15 @@ export default function AssessSilicosisForm() {
                 <ModalCloseButton />
                 <ModalBody>
                   <Stack spacing={4}>
+                    <FormControl>
+                      <FormLabel>คำนำหน้าชื่อ*</FormLabel>
+                      <Field as={Select} name="prefix">
+                        <option value="">เลือกคำนำหน้าชื่อ</option>
+                        <option value="นาย">นาย</option>
+                        <option value="นาง">นาง</option>
+                        <option value="นางสาว">นางสาว</option>
+                      </Field>
+                    </FormControl>
                     <FormControl>
                       <FormLabel>ชื่อ*</FormLabel>
                       <Field

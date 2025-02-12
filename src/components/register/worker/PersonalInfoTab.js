@@ -14,7 +14,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { Field, useFormikContext } from "formik";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { nationOptions } from "./Option";
 import { MdLocationOn, MdNavigateNext } from "react-icons/md";
 
@@ -23,29 +23,55 @@ export default function PersonalInfoTab({ nextTab }) {
     useFormikContext();
   const toast = useToast();
 
+  const [selectedDay, setSelectedDay] = useState("");
+  const [selectedMonth, setSelectedMonth] = useState("");
+  const [selectedYear, setSelectedYear] = useState("");
+
   const today = new Date();
   today.setDate(today.getDate() - 1);
   const maxDate = today.toISOString().split("T")[0];
 
   useEffect(() => {
-    if (values.birth) {
-      const birthDate = new Date(values.birth);
-      const age = calculateAge(birthDate);
-      setFieldValue("age", age);
+    if (selectedDay && selectedMonth && selectedYear) {
+      const gregorianYear = selectedYear - 543;
+      const birthDate = new Date(gregorianYear, selectedMonth - 1, selectedDay);
+
+      if (!isNaN(birthDate)) {
+        const isoDate = birthDate.toISOString();
+        setFieldValue("birth", isoDate);
+      }
     }
-  }, [values.birth, setFieldValue]);
+  }, [selectedDay, selectedMonth, selectedYear, setFieldValue]);
 
   const calculateAge = (birthDate) => {
     const today = new Date();
-    const age = today.getFullYear() - birthDate.getFullYear();
-    const monthDiff = today.getMonth() - birthDate.getMonth();
-    const dayDiff = today.getDate() - birthDate.getDate();
+    const thisYear = today.getFullYear();
+    const birthYear = birthDate.getFullYear();
+    const age = thisYear - birthYear;
 
-    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
-      return age - 1;
+    const thisMonth = today.getMonth();
+    const birthMonth = birthDate.getMonth();
+    const thisDay = today.getDate();
+    const birthDay = birthDate.getDate();
+
+    if (
+      thisMonth < birthMonth ||
+      (thisMonth === birthMonth && thisDay < birthDay)
+    ) {
+      return age;
     }
     return age;
   };
+
+  useEffect(() => {
+    if (values.birth) {
+      const birthDate = new Date(values.birth);
+      if (!isNaN(birthDate)) {
+        const age = calculateAge(birthDate);
+        setFieldValue("age", age);
+      }
+    }
+  }, [values.birth, setFieldValue]);
 
   const handleGeolocation = () => {
     if (navigator.geolocation) {
@@ -101,6 +127,28 @@ export default function PersonalInfoTab({ nextTab }) {
           </Stack>
         </RadioGroup>
         <FormErrorMessage>{errors.gender}</FormErrorMessage>
+      </FormControl>
+
+      <FormControl isInvalid={!!errors.prefix && touched.prefix}>
+        <FormLabel>คำนำหน้าชื่อ*</FormLabel>
+        <Field
+          as={Select}
+          name="prefix"
+          onBlur={handleBlur}
+          validate={(value) => {
+            let error;
+            if (!value) {
+              error = "กรุณาใส่ข้อมูลคำนำหน้าชื่อ";
+            }
+            return error;
+          }}
+        >
+          <option value="">เลือกคำนำหน้าชื่อ</option>
+          <option value="นาย">นาย</option>
+          <option value="นาง">นาง</option>
+          <option value="นางสาว">นางสาว</option>
+        </Field>
+        <FormErrorMessage>{errors.prefix}</FormErrorMessage>
       </FormControl>
 
       <FormControl isInvalid={!!errors.firstName && touched.firstName}>
@@ -160,10 +208,72 @@ export default function PersonalInfoTab({ nextTab }) {
       </FormControl>
 
       <FormControl isInvalid={!!errors.birth && touched.birth}>
+        <FormLabel>วันเดือนปีเกิด (พ.ศ.)</FormLabel>
+        <div className="flex gap-2">
+          <Select
+            placeholder="วัน"
+            value={selectedDay}
+            onChange={(e) => setSelectedDay(e.target.value)}
+            onBlur={handleBlur}
+          >
+            {Array.from({ length: 31 }, (_, i) => (
+              <option key={i + 1} value={i + 1}>
+                {i + 1}
+              </option>
+            ))}
+          </Select>
+          <Select
+            placeholder="เดือน"
+            value={selectedMonth}
+            onChange={(e) => setSelectedMonth(e.target.value)}
+            onBlur={handleBlur}
+          >
+            {[
+              "มกราคม",
+              "กุมภาพันธ์",
+              "มีนาคม",
+              "เมษายน",
+              "พฤษภาคม",
+              "มิถุนายน",
+              "กรกฎาคม",
+              "สิงหาคม",
+              "กันยายน",
+              "ตุลาคม",
+              "พฤศจิกายน",
+              "ธันวาคม",
+            ].map((month, index) => (
+              <option key={index + 1} value={index + 1}>
+                {month}
+              </option>
+            ))}
+          </Select>
+          <Select
+            placeholder="ปี (พ.ศ.)"
+            value={selectedYear}
+            onChange={(e) => setSelectedYear(e.target.value)}
+            onBlur={handleBlur}
+          >
+            {Array.from({ length: 100 }, (_, i) => {
+              const buddhistYear = today.getFullYear() + 543 - i;
+              return (
+                <option key={buddhistYear} value={buddhistYear}>
+                  {buddhistYear}
+                </option>
+              );
+            })}
+          </Select>
+        </div>
+        <FormErrorMessage>{errors.birth}</FormErrorMessage>
+      </FormControl>
+
+      <FormControl
+        isInvalid={!!errors.birth && touched.birth}
+        className="hidden"
+      >
         <FormLabel>วันเดือนปีเกิด (ค.ศ.)</FormLabel>
         <Field
           as={Input}
-          type="date"
+          type="text"
           name="birth"
           placeholder="ใส่เฉพาะตัวเลข"
           max={maxDate}
