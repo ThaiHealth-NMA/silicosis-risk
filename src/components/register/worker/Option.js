@@ -54,13 +54,6 @@ export const silicaDustOptions = [
     silicaDustMin: 0.028,
     silicaDustMax: 0.051,
   },
-  {
-    value: "อื่น ๆ",
-    label: "อื่น ๆ",
-    silicaDustAvg: "",
-    silicaDustMin: "",
-    silicaDustMax: "",
-  },
 ];
 
 export const nationOptions = [
