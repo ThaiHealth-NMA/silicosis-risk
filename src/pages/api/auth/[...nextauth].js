@@ -14,7 +14,7 @@ export default NextAuth({
         const { account, password } = credentials;
 
         const { data, error } = await supabase
-          .from("account")
+          .from("nma_admin")
           .select("*")
           .eq("account", account)
           .single();
@@ -27,8 +27,8 @@ export default NextAuth({
 
         if (isValidPassword) {
           const { error: updateError } = await supabase
-            .from("account")
-            .update({ last_login: new Date().toISOString() })
+            .from("nma_admin")
+            .update({ updated_at: new Date().toISOString() })
             .eq("id", data.id);
 
           if (updateError) {
